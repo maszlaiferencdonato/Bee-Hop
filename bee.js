@@ -11,6 +11,7 @@ const canvasMagassag = 750;
 let oszlopInterval;
 let mozgatasInterval;
 
+
 function valtsTemat(ujTema) {
     jatekTer.className = 'jatek-ter ' + ujTema;
 }
