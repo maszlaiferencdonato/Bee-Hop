@@ -1,56 +1,107 @@
 body {
-            background-color: #222;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: sans-serif;
-        }
+    background-color: #222;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.menusav {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.menusav button {
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 2px solid #555;
+    border-radius: 8px;
+    background-color: #333;
+    color: white;
+}
 
 .jatek-ter {
-            width: 600px;
-            height: 750px;
-            background-color: #87CEEB;
-            position: relative;
-            border: 5px solid #fff;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+    width: 600px;
+    height: 750px;
+    position: relative;
+    border: 5px solid #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: background-color 0.4s ease;
+}
 
-       
-        .nap {
-            width: 80px;
-            height: 80px;
-            background-color: #FFD700;
-            border-radius: 50%;
-            position: absolute;
-            top: 30px;
-            right: 40px;
-        }
 
-       
-        .felho {
-            background-color: white;
-            border-radius: 25px;
-            position: absolute;
-        }
+.jatek-ter.tema-nappal { background-color: #87CEEB; }
+.jatek-ter.tema-nappal .nap { background-color: #FFD700; }
+.jatek-ter.tema-nappal .felho { background-color: #ffffff; }
+.jatek-ter.tema-nappal .talaj { background-color: #2ed573; border-top: 6px solid #26af5f; }
 
-        
-        .felho-1 { width: 130px; height: 45px; top: 40px;  left: 30px;  opacity: 0.9; }
-        .felho-2 { width: 160px; height: 50px; top: 130px; right: 140px; opacity: 0.95; }
-        .felho-3 { width: 100px; height: 35px; top: 230px; left: 60px;  opacity: 0.75; }
-        .felho-4 { width: 140px; height: 45px; top: 350px; right: 50px; opacity: 0.85; }
-        .felho-5 { width: 90px;  height: 30px; top: 480px; left: 40px;  opacity: 0.7; }
-        .felho-6 { width: 120px; height: 40px; top: 270px; right: 70px; opacity: 0.8; }
+.nap {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    transition: background-color 0.4s ease;
+}
 
-     
-        .talaj {
-            width: 100%;
-            height: 80px;
-            background-color: #2ed573;
-            position: absolute;
-            bottom: 0;
-            border-top: 6px solid #26af5f;
-        }
+.felho {
+    border-radius: 25px;
+    position: absolute;
+    transition: background-color 0.4s ease;
+}
+
+.felho-1 { width: 130px; height: 45px; top: 40px;  left: 30px;  opacity: 0.9; }
+.felho-2 { width: 160px; height: 50px; top: 130px; right: 140px; opacity: 0.95; }
+.felho-3 { width: 100px; height: 35px; top: 230px; left: 60px;  opacity: 0.75; }
+.felho-4 { width: 140px; height: 45px; top: 350px; right: 50px; opacity: 0.85; }
+.felho-5 { width: 90px;  height: 30px; top: 480px; left: 40px;  opacity: 0.7; }
+.felho-6 { width: 120px; height: 40px; top: 270px; right: 70px; opacity: 0.8; }
+
+.talaj {
+    width: 100%;
+    height: 80px;
+    position: absolute;
+    bottom: 0;
+    transition: all 0.4s ease;
+}
+.jatek-ter.tema-ejszaka { background-color: #1a1a3a; }
+.jatek-ter.tema-ejszaka .nap { background-color: #f4f1de; box-shadow: 0 0 20px rgba(244, 241, 222, 0.6); }
+.jatek-ter.tema-ejszaka .felho { background-color: #4a5568; }
+.jatek-ter.tema-ejszaka .talaj { background-color: #1b4332; border-top: 6px solid #081c15; }
+
+.jatek-ter.tema-cyberpunk { background-color: #0d0221; }
+.jatek-ter.tema-cyberpunk .nap { background-color: #ff007f; box-shadow: 0 0 25px #ff007f; }
+.jatek-ter.tema-cyberpunk .felho { background-color: #00e1ff; box-shadow: 0 0 15px #00e1ff; }
+.jatek-ter.tema-cyberpunk .talaj { background-color: #240046; border-top: 6px solid #7b2cbf; }
+.oszlop {
+    width: 60px;
+    position: absolute;
+    background-color: #2e8b57;
+    border: 3px solid #1e5b37;
+    box-sizing: border-box;
+}
+
+.jatek-ter.tema-ret .oszlop {
+    background-color: #2e8b57;
+    border-color: #1e5b37;
+}
+
+.jatek-ter.tema-ejszaka .oszlop {
+    background-color: #4a3b5c;
+    border-color: #2d2338;
+}
+
+.jatek-ter.tema-cyberpunk .oszlop {
+    background-color: #ff007f;
+    border-color: #7b2cbf;
+    box-shadow: 0 0 10px #ff007f;
+}
