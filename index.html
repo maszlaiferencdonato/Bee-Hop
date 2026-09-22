@@ -8,8 +8,13 @@
     
 </head>
 <body>
+    <div class="menusav">
+        <button onclick="valtsTemat('tema-nappal')">🌞 Nappal</button>
+        <button onclick="valtsTemat('tema-ejszaka')">🌙 Éjszaka</button>
+        <button onclick="valtsTemat('tema-cyberpunk')">🏙️ Cyber</button>
+    </div>
 
-    <div class="jatek-ter">
+    <div class="jatek-ter tema-ret" id="jatekTer">
         <div class="nap"></div>
         <div class="felho felho-1"></div>
         <div class="felho felho-2"></div>
@@ -22,6 +27,7 @@
         <div class="talaj"></div>
     </div>
 
+    <script src="bee.js"></script>
     <div class="instructions">Ugráshoz nyomd meg a <b>SZÓKÖZT</b> vagy <b>KATTINTS</b> a képernyőre!</div>
 
     <script>
