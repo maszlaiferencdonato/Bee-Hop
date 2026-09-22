@@ -10,6 +10,19 @@ const ctx = canvas.getContext("2d");
 
 const playerImg = new Image();
 playerImg.src = "mehecske.png";
+    
+   
+    jatekTer.className = 'jatek-ter ' + ujTema;
+}
+
+   
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+       
+
+const playerImg = new Image();
+
 let playerImgLoaded = false;
 playerImg.onload = () => { playerImgLoaded = true; };
 
@@ -46,6 +59,13 @@ function update() {
         bird.y = 0;
         bird.velocity = 0;
     }
+    velocity: 0
+};
+
+function update() {
+    
+    bird.velocity += bird.gravity;
+    bird.y += bird.velocity;
 }
 
 function draw() {
