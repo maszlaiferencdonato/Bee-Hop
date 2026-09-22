@@ -2,8 +2,10 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Flappy Bee - Több Felhővel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Bee Hopp</title>
     <link rel="stylesheet" href="style.css">
+    
 </head>
 <body>
     <div class="menusav">
@@ -20,9 +22,58 @@
         <div class="felho felho-4"></div>
         <div class="felho felho-5"></div>
         <div class="felho felho-6"></div>
+
+        <canvas id="gameCanvas" width="600" height="750"></canvas>
         <div class="talaj"></div>
     </div>
 
     <script src="bee.js"></script>
+    <div class="instructions">Ugráshoz nyomd meg a <b>SZÓKÖZT</b> vagy <b>KATTINTS</b> a képernyőre!</div>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+       
+
+const playerImg = new Image();
+// playerImg.src = "mehecske.png";
+let playerImgLoaded = false;
+playerImg.onload = () => { playerImgLoaded = true; };
+
+const bird = {
+    x: 80,
+    y: 200,
+    width: 50,
+    height: 50,
+    gravity: 0.3,
+    velocity: 0
+};
+
+function update() {
+    // Gravitáció alkalmazása
+    bird.velocity += bird.gravity;
+    bird.y += bird.velocity;
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (playerImgLoaded) {
+        ctx.drawImage(playerImg, bird.x, bird.y, bird.width, bird.height);
+    } else {
+        ctx.fillStyle = "#ffeb3b";
+        ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
+    }
+}
+
+function loop() {
+    update();
+    draw();
+    requestAnimationFrame(loop);
+}
+
+loop();
+    </script>
 </body>
 </html>
