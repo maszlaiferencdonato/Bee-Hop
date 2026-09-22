@@ -1,5 +1,15 @@
 function valtsTemat(ujTema) {
     const jatekTer = document.getElementById('jatekTer');
+    jatekTer.className = 'jatek-ter ' + ujTema;
+}
+
+valtsTemat('tema-nappal');
+
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+const playerImg = new Image();
+playerImg.src = "mehecske.png";
     
    
     jatekTer.className = 'jatek-ter ' + ujTema;
@@ -22,6 +32,33 @@ const bird = {
     width: 50,
     height: 50,
     gravity: 0.3,
+    velocity: 0,
+    jumpStrength: -7 
+};
+
+function jump() {
+    bird.velocity = bird.jumpStrength;
+}
+
+window.addEventListener("keydown", function(event) {
+    if (event.code === "Space") {
+        event.preventDefault(); 
+        jump();
+    }
+});
+
+window.addEventListener("click", function() {
+    jump();
+});
+
+function update() {
+    bird.velocity += bird.gravity;
+    bird.y += bird.velocity;
+
+    if (bird.y < 0) {
+        bird.y = 0;
+        bird.velocity = 0;
+    }
     velocity: 0
 };
 
