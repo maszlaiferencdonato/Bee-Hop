@@ -17,8 +17,13 @@ const mehecske = {
     ugrasEro: -7.5
 };
 
-function valtsTemat(ujTema) {
+function valtsTemat(ujTema, gombElem) {
     jatekTer.className = 'jatek-ter ' + ujTema;
+    
+    if (gombElem) {
+        document.querySelectorAll('.tema-kartya').forEach(k => k.classList.remove('aktiv'));
+        gombElem.classList.add('aktiv');
+    }
 }
 
 function ugras() {
@@ -27,8 +32,6 @@ function ugras() {
 }
 
 function jatekInditasa() {
-    if (jatekFuto) return;
-
     oszlopok.forEach(o => {
         o.felso.remove();
         o.also.remove();
@@ -38,38 +41,26 @@ function jatekInditasa() {
     mehecske.sebesseg = 0;
 
     const startKepernyo = document.getElementById('startKepernyo');
-    if (startKepernyo) {
-        startKepernyo.style.display = 'none';
-    }
+    if (startKepernyo) startKepernyo.style.display = 'none';
 
     jatekFuto = true;
+    clearInterval(oszlopIdozito);
     oszlopIdozito = setInterval(hozzaadOszlop, 2500);
     requestAnimationFrame(jatekCiklus);
-}
-
-function mutatPontszamok() {
-    alert("Legmagasabb pontszám: " + (localStorage.getItem("beeHopHighScore") || 0));
 }
 
 window.addEventListener("keydown", function(event) {
     if (event.code === "Space") {
         event.preventDefault();
-        const startKepernyo = document.getElementById('startKepernyo');
-        if (!jatekFuto && startKepernyo.style.display !== 'none') {
-            jatekInditasa();
-        } else {
+        if (jatekFuto) {
             ugras();
         }
     }
 });
 
 window.addEventListener("click", function(event) {
-    if (event.target.tagName === 'BUTTON') return;
-
-    const startKepernyo = document.getElementById('startKepernyo');
-    if (!jatekFuto && startKepernyo.style.display !== 'none') {
-        jatekInditasa();
-    } else {
+    if (event.target.closest('button')) return;
+    if (jatekFuto) {
         ugras();
     }
 });
@@ -107,15 +98,18 @@ function hozzaadOszlop() {
 }
 
 function ellenorizUtkozes(o) {
+    
     if (mehecske.y + mehecske.magassag >= 670 || mehecske.y <= 0) {
         return true;
     }
 
+    
     if (mehecske.x + mehecske.szelesseg > o.x && mehecske.x < o.x + oszlopSzelesseg) {
         if (mehecske.y < o.felsoMagassag || mehecske.y + mehecske.magassag > o.alsoTop) {
             return true;
         }
     }
+
     return false;
 }
 
@@ -124,6 +118,23 @@ function jatekCiklus() {
 
     mehecske.sebesseg += mehecske.gravitacio;
     mehecske.y += mehecske.sebesseg;
+
+    
+    if (mehecske.y <= 0) {
+        mehecske.y = 0;
+        mehecskeElem.style.top = '0px';
+        gameOver();
+        return;
+    }
+
+    
+    if (mehecske.y + mehecske.magassag >= 670) {
+        mehecske.y = 670 - mehecske.magassag;
+        mehecskeElem.style.top = mehecske.y + 'px';
+        gameOver();
+        return;
+    }
+
     mehecskeElem.style.left = mehecske.x + 'px';
     mehecskeElem.style.top = mehecske.y + 'px';
 
@@ -152,10 +163,10 @@ function jatekCiklus() {
 function gameOver() {
     jatekFuto = false;
     clearInterval(oszlopIdozito);
+
     
     const startKepernyo = document.getElementById('startKepernyo');
     if (startKepernyo) {
-        startKepernyo.querySelector('.pixel-cim').innerText = "Game Over";
         startKepernyo.style.display = 'flex';
     }
 }
