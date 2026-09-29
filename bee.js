@@ -55,7 +55,7 @@ window.addEventListener("keydown", function(event) {
     if (event.code === "Space") {
         event.preventDefault();
         const startKepernyo = document.getElementById('startKepernyo');
-        if (!jatekFuto && startKepernyo && startKepernyo.style.display !== 'none') {
+        if (!jatekFuto && startKepernyo.style.display !== 'none') {
             jatekInditasa();
         } else {
             ugras();
@@ -67,7 +67,7 @@ window.addEventListener("click", function(event) {
     if (event.target.tagName === 'BUTTON') return;
 
     const startKepernyo = document.getElementById('startKepernyo');
-    if (!jatekFuto && startKepernyo && startKepernyo.style.display !== 'none') {
+    if (!jatekFuto && startKepernyo.style.display !== 'none') {
         jatekInditasa();
     } else {
         ugras();
@@ -152,4 +152,10 @@ function jatekCiklus() {
 function gameOver() {
     jatekFuto = false;
     clearInterval(oszlopIdozito);
+    
+    const startKepernyo = document.getElementById('startKepernyo');
+    if (startKepernyo) {
+        startKepernyo.querySelector('.pixel-cim').innerText = "Game Over";
+        startKepernyo.style.display = 'flex';
+    }
 }

@@ -158,7 +158,9 @@ body {
 @keyframes lebeges {
     0% { transform: translateY(0px); }
     100% { transform: translateY(-10px); }
+
 }
+
 
 .gomb-csoport {
     display: flex;
