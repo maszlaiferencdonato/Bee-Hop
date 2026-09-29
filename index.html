@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Bee Hop</title>
+    <title>Bee Hopp</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="menusav">
         <button onclick="valtsTemat('tema-nappal')">🌞 Nappal</button>
         <button onclick="valtsTemat('tema-ejszaka')">🌙 Éjszaka</button>
         <button onclick="valtsTemat('tema-cyberpunk')">🏙️ Cyber</button>
     </div>
 
-    <div id="jatekTer" class="jatek-ter tema-nappal">
+    <div class="jatek-ter tema-ret" id="jatekTer">
         <div class="nap"></div>
         <div class="felho felho-1"></div>
         <div class="felho felho-2"></div>
@@ -23,21 +22,7 @@
         <div class="felho felho-5"></div>
         <div class="felho felho-6"></div>
 
-        <div id="startKepernyo" class="start-kepernyo">
-            <div class="logo-kontener">
-                <h1 class="pixel-cim">Bee Hop</h1>
-                <img src="mehecske.png" class="logo-mehecske" alt="Méhecske">
-            </div>
-            
-            <div class="gomb-csoport">
-                <button id="startGomb" class="pixel-gomb" onclick="jatekInditasa()">START</button>
-                <button id="scoreGomb" class="pixel-gomb" onclick="mutatPontszamok()">SCORE</button>
-            </div>
-
-            <div class="copyright">(c) Bee Hop Team 2026</div>
-        </div>
-
-        <img src="mehecske.png" id="mehecske" class="mehecske-img" alt="Méhecske">
+        <canvas id="gameCanvas" width="600" height="750"></canvas>
         <div class="talaj"></div>
     </div>
 
