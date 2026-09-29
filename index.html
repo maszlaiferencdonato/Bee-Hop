@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Bee Hop</title>
+    <title>Bee Hopp</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="jatekTer" class="jatek-ter tema-nappal">
+    <div class="menusav">
+        <button onclick="valtsTemat('tema-nappal')">🌞 Nappal</button>
+        <button onclick="valtsTemat('tema-ejszaka')">🌙 Éjszaka</button>
+        <button onclick="valtsTemat('tema-cyberpunk')">🏙️ Cyber</button>
+    </div>
+
+    <div class="jatek-ter tema-ret" id="jatekTer">
         <div class="nap"></div>
         <div class="csillagok"></div>
         <div class="felho felho-1"></div>
@@ -47,6 +54,7 @@
         </div>
 
         <img src="mehecske.png" id="mehecske" class="mehecske-img" alt="Méhecske">
+        <canvas id="gameCanvas" width="600" height="750"></canvas>
         <div class="talaj"></div>
     </div>
 

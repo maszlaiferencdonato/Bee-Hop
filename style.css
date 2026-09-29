@@ -89,6 +89,12 @@ body {
 }
 
 /* KÖZÖS ELEMEK */
+
+.jatek-ter.tema-nappal { background-color: #87CEEB; }
+.jatek-ter.tema-nappal .nap { background-color: #FFD700; }
+.jatek-ter.tema-nappal .felho { background-color: #ffffff; }
+.jatek-ter.tema-nappal .talaj { background-color: #2ed573; border-top: 6px solid #26af5f; }
+
 .nap {
     width: 70px;
     height: 70px;
@@ -121,14 +127,26 @@ body {
     position: absolute;
     bottom: 0;
     transition: all 0.4s ease;
-    z-index: 5;
 }
+.jatek-ter.tema-ejszaka { background-color: #1a1a3a; }
+.jatek-ter.tema-ejszaka .nap { background-color: #f4f1de; box-shadow: 0 0 20px rgba(244, 241, 222, 0.6); }
+.jatek-ter.tema-ejszaka .felho { background-color: #4a5568; }
+.jatek-ter.tema-ejszaka .talaj { background-color: #1b4332; border-top: 6px solid #081c15; }
+
+.jatek-ter.tema-cyberpunk { background-color: #0d0221; }
+.jatek-ter.tema-cyberpunk .nap { background-color: #ff007f; box-shadow: 0 0 25px #ff007f; }
+.jatek-ter.tema-cyberpunk .felho { background-color: #00e1ff; box-shadow: 0 0 15px #00e1ff; }
+.jatek-ter.tema-cyberpunk .talaj { background-color: #240046; border-top: 6px solid #7b2cbf; }
 
 .oszlop {
     width: 60px;
     position: absolute;
     box-sizing: border-box;
-    z-index: 2;
+}
+
+.jatek-ter.tema-ret .oszlop {
+    background-color: #2e8b57;
+    border-color: #1e5b37;
 }
 
 .mehecske-img {
@@ -265,4 +283,14 @@ body {
 @keyframes lebeges {
     0% { transform: translateY(0px); }
     100% { transform: translateY(-10px); }
+}
+.jatek-ter.tema-ejszaka .oszlop {
+    background-color: #4a3b5c;
+    border-color: #2d2338;
+}
+
+.jatek-ter.tema-cyberpunk .oszlop {
+    background-color: #ff007f;
+    border-color: #7b2cbf;
+    box-shadow: 0 0 10px #ff007f;
 }
