@@ -21,8 +21,10 @@ valtsTemat('tema-nappal');
 const playerImg = new Image();
 playerImg.src = "mehecske.png";
 
-let playerImgLoaded = false;
-playerImg.onload = () => { playerImgLoaded = true; };
+    const startKepernyo = document.getElementById('startKepernyo');
+    if (startKepernyo) {
+        startKepernyo.style.display = 'none';
+    }
 
 const bird = {
     x: 80,
@@ -100,8 +102,13 @@ function jump() {
 
 window.addEventListener("keydown", function(event) {
     if (event.code === "Space") {
-        event.preventDefault(); 
-        jump();
+        event.preventDefault();
+        const startKepernyo = document.getElementById('startKepernyo');
+        if (!jatekFuto && startKepernyo.style.display !== 'none') {
+            jatekInditasa();
+        } else {
+            ugras();
+        }
     }
 });
 
@@ -145,8 +152,10 @@ function update() {
     checkCollisions();
 }
 
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+function ellenorizUtkozes(o) {
+    if (mehecske.y + mehecske.magassag >= 670 || mehecske.y <= 0) {
+        return true;
+    }
 
     if (playerImgLoaded) {
         ctx.drawImage(playerImg, bird.x, bird.y, bird.width, bird.height);
@@ -154,10 +163,34 @@ function draw() {
    
 }
 
-function loop() {
-    update();
-    draw();
-    requestAnimationFrame(loop);
+function jatekCiklus() {
+    if (!jatekFuto) return;
+
+    mehecske.sebesseg += mehecske.gravitacio;
+    mehecske.y += mehecske.sebesseg;
+    mehecskeElem.style.left = mehecske.x + 'px';
+    mehecskeElem.style.top = mehecske.y + 'px';
+
+    for (let i = 0; i < oszlopok.length; i++) {
+        let o = oszlopok[i];
+        o.x -= 2;
+        o.felso.style.left = o.x + 'px';
+        o.also.style.left = o.x + 'px';
+
+        if (ellenorizUtkozes(o)) {
+            gameOver();
+            return;
+        }
+
+        if (o.x < -oszlopSzelesseg) {
+            o.felso.remove();
+            o.also.remove();
+            oszlopok.splice(i, 1);
+            i--;
+        }
+    }
+
+    requestAnimationFrame(jatekCiklus);
 }
 
 loop();
