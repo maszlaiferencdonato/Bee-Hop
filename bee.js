@@ -1,54 +1,103 @@
 let oszlopok = [];
 const jatekTer = document.getElementById('jatekTer');
-const mehecskeElem = document.getElementById('mehecske');
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-const oszlopSzelesseg = 60;
-const resMeret = 180;
-let jatekFuto = false;
-let oszlopIdozito = null;
+const oszlopSzelesseg = 60; 
+const resMeret = 180;        
+const talajMagassag = 80;   
+const canvasMagassag = 750;
 
-const mehecske = {
-    x: 80,
-    y: 200,
-    szelesseg: 50,
-    magassag: 50,
-    gravitacio: 0.35,
-    sebesseg: 0,
-    ugrasEro: -7.5
-};
+let oszlopInterval;
+let mozgatasInterval;
+
 
 function valtsTemat(ujTema) {
     jatekTer.className = 'jatek-ter ' + ujTema;
 }
 
-function ugras() {
-    if (!jatekFuto) return;
-    mehecske.sebesseg = mehecske.ugrasEro;
-}
+valtsTemat('tema-nappal');
 
-function jatekInditasa() {
-    if (jatekFuto) return;
-
-    oszlopok.forEach(o => {
-        o.felso.remove();
-        o.also.remove();
-    });
-    oszlopok = [];
-    mehecske.y = 200;
-    mehecske.sebesseg = 0;
+const playerImg = new Image();
+playerImg.src = "mehecske.png";
 
     const startKepernyo = document.getElementById('startKepernyo');
     if (startKepernyo) {
         startKepernyo.style.display = 'none';
     }
 
-    jatekFuto = true;
-    oszlopIdozito = setInterval(hozzaadOszlop, 2500);
-    requestAnimationFrame(jatekCiklus);
+const bird = {
+    x: 80,
+    y: 200,
+    width: 50,
+    height: 50,
+    gravity: 0.55,
+    velocity: 2,
+    jumpStrength: -9 
+};
+
+function restartGame() {
+    oszlopok.forEach(o => {
+        o.felso.remove();
+        o.also.remove();
+    });
+    oszlopok = [];
+
+    bird.y = 200;
+    bird.velocity = 0;
 }
 
-function mutatPontszamok() {
-    alert("Legmagasabb pontszám: " + (localStorage.getItem("beeHopHighScore") || 0));
+function hozzaadOszlop() {
+    const minMagassag = 50;
+    const maxMagassag = canvasMagassag - talajMagassag - resMeret - minMagassag;
+    const felsoMagassag = Math.floor(Math.random() * (maxMagassag - minMagassag + 1)) + minMagassag;
+    const alsoMagassag = canvasMagassag - talajMagassag - felsoMagassag - resMeret;
+
+    const felsoOszlop = document.createElement('div');
+    felsoOszlop.className = 'oszlop';
+    felsoOszlop.style.height = felsoMagassag + 'px';
+    felsoOszlop.style.top = '0px';
+    felsoOszlop.style.left = '600px';
+
+    const alsoOszlop = document.createElement('div');
+    alsoOszlop.className = 'oszlop';
+    alsoOszlop.style.height = alsoMagassag + 'px';
+    alsoOszlop.style.bottom = talajMagassag + 'px';
+    alsoOszlop.style.left = '600px';
+
+    jatekTer.appendChild(felsoOszlop);
+    jatekTer.appendChild(alsoOszlop);
+
+    oszlopok.push({ 
+        felso: felsoOszlop, 
+        also: alsoOszlop, 
+        x: 600,
+        felsoMagassag: felsoMagassag,
+        alsoMagassag: alsoMagassag
+    });
+}
+
+function mozgatas() {
+    for (let i = 0; i < oszlopok.length; i++) {
+        let o = oszlopok[i];
+        o.x -= 3.5;
+        o.felso.style.left = o.x + 'px';
+        o.also.style.left = o.x + 'px';
+
+        if (o.x < -oszlopSzelesseg) {
+            o.felso.remove();
+            o.also.remove();
+            oszlopok.splice(i, 1);
+            i--;
+        }
+    }
+}
+
+oszlopInterval = setInterval(hozzaadOszlop, 1600);
+mozgatasInterval = setInterval(mozgatas, 20);
+
+function jump() {
+    bird.velocity = bird.jumpStrength;
 }
 
 window.addEventListener("keydown", function(event) {
@@ -63,47 +112,44 @@ window.addEventListener("keydown", function(event) {
     }
 });
 
-window.addEventListener("click", function(event) {
-    if (event.target.tagName === 'BUTTON') return;
-
-    const startKepernyo = document.getElementById('startKepernyo');
-    if (!jatekFuto && startKepernyo.style.display !== 'none') {
-        jatekInditasa();
-    } else {
-        ugras();
-    }
+window.addEventListener("click", function() {
+    jump();
 });
 
-function hozzaadOszlop() {
-    if (!jatekFuto) return;
+function checkCollisions() {
+    if (bird.y <= 0) {
+        restartGame();
+        return;
+    }
 
-    const minMagassag = 50;
-    const maxMagassag = 750 - 80 - resMeret - minMagassag;
-    const felsoMagassag = Math.floor(Math.random() * (maxMagassag - minMagassag + 1)) + minMagassag;
-    const alsoMagassag = 750 - 80 - felsoMagassag - resMeret;
+    if (bird.y + bird.height >= canvasMagassag - talajMagassag) {
+        restartGame();
+        return;
+    }
 
-    const felsoOszlop = document.createElement('div');
-    felsoOszlop.className = 'oszlop';
-    felsoOszlop.style.height = felsoMagassag + 'px';
-    felsoOszlop.style.top = '0px';
-    felsoOszlop.style.left = '600px';
+    for (let i = 0; i < oszlopok.length; i++) {
+        let o = oszlopok[i];
 
-    const alsoOszlop = document.createElement('div');
-    alsoOszlop.className = 'oszlop';
-    alsoOszlop.style.height = alsoMagassag + 'px';
-    alsoOszlop.style.bottom = '80px';
-    alsoOszlop.style.left = '600px';
+        let hitX = (bird.x + bird.width > o.x) && (bird.x < o.x + oszlopSzelesseg);
 
-    jatekTer.appendChild(felsoOszlop);
-    jatekTer.appendChild(alsoOszlop);
+        if (hitX) {
+            let hitFelso = bird.y < o.felsoMagassag;
 
-    oszlopok.push({ 
-        felso: felsoOszlop, 
-        also: alsoOszlop, 
-        x: 600,
-        felsoMagassag: felsoMagassag,
-        alsoTop: felsoMagassag + resMeret
-    });
+            let hitAlso = (bird.y + bird.height) > (canvasMagassag - talajMagassag - o.alsoMagassag);
+
+            if (hitFelso || hitAlso) {
+                restartGame();
+                return;
+            }
+        }
+    }
+}
+
+function update() {
+    bird.velocity += bird.gravity;
+    bird.y += bird.velocity;
+
+    checkCollisions();
 }
 
 function ellenorizUtkozes(o) {
@@ -111,12 +157,10 @@ function ellenorizUtkozes(o) {
         return true;
     }
 
-    if (mehecske.x + mehecske.szelesseg > o.x && mehecske.x < o.x + oszlopSzelesseg) {
-        if (mehecske.y < o.felsoMagassag || mehecske.y + mehecske.magassag > o.alsoTop) {
-            return true;
-        }
+    if (playerImgLoaded) {
+        ctx.drawImage(playerImg, bird.x, bird.y, bird.width, bird.height);
     }
-    return false;
+   
 }
 
 function jatekCiklus() {
@@ -149,13 +193,4 @@ function jatekCiklus() {
     requestAnimationFrame(jatekCiklus);
 }
 
-function gameOver() {
-    jatekFuto = false;
-    clearInterval(oszlopIdozito);
-    
-    const startKepernyo = document.getElementById('startKepernyo');
-    if (startKepernyo) {
-        startKepernyo.querySelector('.pixel-cim').innerText = "Game Over";
-        startKepernyo.style.display = 'flex';
-    }
-}
+loop();
