@@ -12,8 +12,13 @@ let oszlopInterval;
 let mozgatasInterval;
 
 
-function valtsTemat(ujTema) {
+function valtsTemat(ujTema, gombElem) {
     jatekTer.className = 'jatek-ter ' + ujTema;
+    
+    if (gombElem) {
+        document.querySelectorAll('.tema-kartya').forEach(k => k.classList.remove('aktiv'));
+        gombElem.classList.add('aktiv');
+    }
 }
 
 valtsTemat('tema-nappal');
@@ -21,6 +26,7 @@ valtsTemat('tema-nappal');
 const playerImg = new Image();
 playerImg.src = "mehecske.png";
 
+function jatekInditasa() {
 let playerImgLoaded = false;
 playerImg.onload = () => { playerImgLoaded = true; };
 
@@ -40,6 +46,34 @@ function restartGame() {
         o.also.remove();
     });
     oszlopok = [];
+    mehecske.y = 200;
+    mehecske.sebesseg = 0;
+
+    const startKepernyo = document.getElementById('startKepernyo');
+    if (startKepernyo) startKepernyo.style.display = 'none';
+
+    jatekFuto = true;
+    clearInterval(oszlopIdozito);
+    oszlopIdozito = setInterval(hozzaadOszlop, 2500);
+    requestAnimationFrame(jatekCiklus);
+}
+
+window.addEventListener("keydown", function(event) {
+    if (event.code === "Space") {
+        event.preventDefault();
+        if (jatekFuto) {
+            ugras();
+        }
+    }
+});
+
+window.addEventListener("click", function(event) {
+    if (event.target.closest('button')) return;
+    if (jatekFuto) {
+        ugras();
+    }
+});
+
 
     bird.y = 200;
     bird.velocity = 0;
@@ -75,6 +109,20 @@ function hozzaadOszlop() {
     });
 }
 
+function ellenorizUtkozes(o) {
+    
+    if (mehecske.y + mehecske.magassag >= 670 || mehecske.y <= 0) {
+        return true;
+    }
+
+    
+    if (mehecske.x + mehecske.szelesseg > o.x && mehecske.x < o.x + oszlopSzelesseg) {
+        if (mehecske.y < o.felsoMagassag || mehecske.y + mehecske.magassag > o.alsoTop) {
+            return true;
+        }
+    }
+
+    return false;
 function mozgatas() {
     for (let i = 0; i < oszlopok.length; i++) {
         let o = oszlopok[i];
@@ -115,6 +163,27 @@ function checkCollisions() {
         return;
     }
 
+    mehecske.sebesseg += mehecske.gravitacio;
+    mehecske.y += mehecske.sebesseg;
+
+    
+    if (mehecske.y <= 0) {
+        mehecske.y = 0;
+        mehecskeElem.style.top = '0px';
+        gameOver();
+        return;
+    }
+
+    
+    if (mehecske.y + mehecske.magassag >= 670) {
+        mehecske.y = 670 - mehecske.magassag;
+        mehecskeElem.style.top = mehecske.y + 'px';
+        gameOver();
+        return;
+    }
+
+    mehecskeElem.style.left = mehecske.x + 'px';
+    mehecskeElem.style.top = mehecske.y + 'px';
     if (bird.y + bird.height >= canvasMagassag - talajMagassag) {
         restartGame();
         return;
@@ -145,6 +214,14 @@ function update() {
     checkCollisions();
 }
 
+function gameOver() {
+    jatekFuto = false;
+    clearInterval(oszlopIdozito);
+
+    
+    const startKepernyo = document.getElementById('startKepernyo');
+    if (startKepernyo) {
+        startKepernyo.style.display = 'flex';
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
