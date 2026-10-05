@@ -1,51 +1,63 @@
 let oszlopok = [];
 const jatekTer = document.getElementById('jatekTer');
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
+const mehecskeElem = document.getElementById('mehecske');
 
-const oszlopSzelesseg = 60; 
-const resMeret = 180;        
-const talajMagassag = 80;   
+const oszlopSzelesseg = 60;
+const resMeret = 180;
+const talajMagassag = 80;
 const canvasMagassag = 750;
 
-let oszlopInterval;
-let mozgatasInterval;
+let oszlopIdozito = null;
+let jatekCiklusId = null;
+let jatekFuto = false;
 
-
-function valtsTemat(ujTema) {
-    jatekTer.className = 'jatek-ter ' + ujTema;
-}
-
-valtsTemat('tema-nappal');
-
-const playerImg = new Image();
-playerImg.src = "mehecske.png";
-
-let playerImgLoaded = false;
-playerImg.onload = () => { playerImgLoaded = true; };
-
-const bird = {
+const mehecske = {
     x: 80,
     y: 200,
-    width: 50,
-    height: 50,
-    gravity: 0.55,
-    velocity: 2,
-    jumpStrength: -9 
+    szelesseg: 50,
+    magassag: 50,
+    gravitacio: 0.45,
+    sebesseg: 0,
+    ugrasEro: -8.5
 };
 
-function restartGame() {
+function valtsTemat(ujTema, gombElem) {
+    jatekTer.className = 'jatek-ter ' + ujTema;
+
+    if (gombElem) {
+        document.querySelectorAll('.tema-kartya').forEach(k => k.classList.remove('aktiv'));
+        gombElem.classList.add('aktiv');
+    }
+}
+
+function jatekInditasa() {
     oszlopok.forEach(o => {
-        o.felso.remove();
-        o.also.remove();
+        if (o.felso) o.felso.remove();
+        if (o.also) o.also.remove();
     });
     oszlopok = [];
 
-    bird.y = 200;
-    bird.velocity = 0;
+    mehecske.y = 200;
+    mehecske.sebesseg = 0;
+    mehecskeElem.style.left = mehecske.x + 'px';
+    mehecskeElem.style.top = mehecske.y + 'px';
+    mehecskeElem.style.display = 'block';
+
+    const startKepernyo = document.getElementById('startKepernyo');
+    if (startKepernyo) startKepernyo.style.display = 'none';
+
+    jatekFuto = true;
+
+    clearInterval(oszlopIdozito);
+    if (jatekCiklusId) cancelAnimationFrame(jatekCiklusId);
+
+    oszlopIdozito = setInterval(hozzaadOszlop, 1800);
+    jatekCiklus();
 }
 
 function hozzaadOszlop() {
+    if (!jatekFuto) return;
+
     const minMagassag = 50;
     const maxMagassag = canvasMagassag - talajMagassag - resMeret - minMagassag;
     const felsoMagassag = Math.floor(Math.random() * (maxMagassag - minMagassag + 1)) + minMagassag;
@@ -66,21 +78,69 @@ function hozzaadOszlop() {
     jatekTer.appendChild(felsoOszlop);
     jatekTer.appendChild(alsoOszlop);
 
-    oszlopok.push({ 
-        felso: felsoOszlop, 
-        also: alsoOszlop, 
+    oszlopok.push({
+        felso: felsoOszlop,
+        also: alsoOszlop,
         x: 600,
         felsoMagassag: felsoMagassag,
         alsoMagassag: alsoMagassag
     });
 }
 
-function mozgatas() {
+function ugras() {
+    if (jatekFuto) {
+        mehecske.sebesseg = mehecske.ugrasEro;
+    }
+}
+
+window.addEventListener("keydown", function (event) {
+    if (event.code === "Space") {
+        event.preventDefault();
+        ugras();
+    }
+});
+
+window.addEventListener("click", function (event) {
+    if (event.target.closest('button')) return;
+    ugras();
+});
+
+function ellenorizUtkozes(o) {
+    const hitX = (mehecske.x + mehecske.szelesseg > o.x) && (mehecske.x < o.x + oszlopSzelesseg);
+
+    if (hitX) {
+        const hitFelso = mehecske.y < o.felsoMagassag;
+        const hitAlso = (mehecske.y + mehecske.magassag) > (canvasMagassag - talajMagassag - o.alsoMagassag);
+        if (hitFelso || hitAlso) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function jatekCiklus() {
+    if (!jatekFuto) return;
+
+    mehecske.sebesseg += mehecske.gravitacio;
+    mehecske.y += mehecske.sebesseg;
+
+    if (mehecske.y <= 0 || mehecske.y + mehecske.magassag >= canvasMagassag - talajMagassag) {
+        gameOver();
+        return;
+    }
+
+    mehecskeElem.style.top = mehecske.y + 'px';
+
     for (let i = 0; i < oszlopok.length; i++) {
         let o = oszlopok[i];
         o.x -= 3.5;
         o.felso.style.left = o.x + 'px';
         o.also.style.left = o.x + 'px';
+
+        if (ellenorizUtkozes(o)) {
+            gameOver();
+            return;
+        }
 
         if (o.x < -oszlopSzelesseg) {
             o.felso.remove();
@@ -89,75 +149,19 @@ function mozgatas() {
             i--;
         }
     }
+
+    jatekCiklusId = requestAnimationFrame(jatekCiklus);
 }
 
-oszlopInterval = setInterval(hozzaadOszlop, 1600);
-mozgatasInterval = setInterval(mozgatas, 20);
+function gameOver() {
+    jatekFuto = false;
+    clearInterval(oszlopIdozito);
+    if (jatekCiklusId) cancelAnimationFrame(jatekCiklusId);
 
-function jump() {
-    bird.velocity = bird.jumpStrength;
-}
+    mehecskeElem.style.display = 'none';
 
-window.addEventListener("keydown", function(event) {
-    if (event.code === "Space") {
-        event.preventDefault(); 
-        jump();
-    }
-});
-
-window.addEventListener("click", function() {
-    jump();
-});
-
-function checkCollisions() {
-    if (bird.y <= 0) {
-        restartGame();
-        return;
-    }
-
-    if (bird.y + bird.height >= canvasMagassag - talajMagassag) {
-        restartGame();
-        return;
-    }
-
-    for (let i = 0; i < oszlopok.length; i++) {
-        let o = oszlopok[i];
-
-        let hitX = (bird.x + bird.width > o.x) && (bird.x < o.x + oszlopSzelesseg);
-
-        if (hitX) {
-            let hitFelso = bird.y < o.felsoMagassag;
-
-            let hitAlso = (bird.y + bird.height) > (canvasMagassag - talajMagassag - o.alsoMagassag);
-
-            if (hitFelso || hitAlso) {
-                restartGame();
-                return;
-            }
-        }
+    const startKepernyo = document.getElementById('startKepernyo');
+    if (startKepernyo) {
+        startKepernyo.style.display = 'flex';
     }
 }
-
-function update() {
-    bird.velocity += bird.gravity;
-    bird.y += bird.velocity;
-
-    checkCollisions();
-}
-
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    if (playerImgLoaded) {
-        ctx.drawImage(playerImg, bird.x, bird.y, bird.width, bird.height);
-    }
-   
-}
-
-function loop() {
-    update();
-    draw();
-    requestAnimationFrame(loop);
-}
-
-loop();

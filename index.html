@@ -2,31 +2,54 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Bee Hopp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bee Hop</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="menusav">
-        <button onclick="valtsTemat('tema-nappal')">🌞 Nappal</button>
-        <button onclick="valtsTemat('tema-ejszaka')">🌙 Éjszaka</button>
-        <button onclick="valtsTemat('tema-cyberpunk')">🏙️ Cyber</button>
-    </div>
 
-    <div class="jatek-ter tema-ret" id="jatekTer">
+    <div id="jatekTer" class="jatek-ter tema-nappal">
         <div class="nap"></div>
         <div class="felho felho-1"></div>
         <div class="felho felho-2"></div>
         <div class="felho felho-3"></div>
         <div class="felho felho-4"></div>
-        <div class="felho felho-5"></div>
-        <div class="felho felho-6"></div>
 
-        <canvas id="gameCanvas" width="600" height="750"></canvas>
+      
+        <div id="startKepernyo" class="start-kepernyo">
+            <div class="logo-kontener">
+                <h1 class="pixel-cim">Bee Hop</h1>
+                <img src="mehecske.png" class="logo-mehecske" alt="Méhecske">
+            </div>
+
+           
+            <div class="tema-valaszto">
+                <button class="tema-kartya aktiv" onclick="valtsTemat('tema-nappal', this)">
+                    <span class="kartya-ikon">🌞</span>
+                    <span class="kartya-nev">NAPPAL</span>
+                </button>
+                <button class="tema-kartya" onclick="valtsTemat('tema-ejszaka', this)">
+                    <span class="kartya-ikon">🌙</span>
+                    <span class="kartya-nev">ÉJSZAKA</span>
+                </button>
+                <button class="tema-kartya" onclick="valtsTemat('tema-cyberpunk', this)">
+                    <span class="kartya-ikon">🏙️</span>
+                    <span class="kartya-nev">CYBER</span>
+                </button>
+            </div>
+
+            <div class="gomb-csoport">
+                <button id="startGomb" class="pixel-gomb" onclick="jatekInditasa()">START</button>
+            </div>
+
+            <div class="copyright">(c) Bee Hop Team 2026</div>
+        </div>
+
+        <img src="mehecske.png" id="mehecske" class="mehecske-img" alt="Méhecske">
         <div class="talaj"></div>
     </div>
 
-    <div class="instructions">Ugráshoz nyomd meg a <b>SZÓKÖZT</b> vagy <b>KATTINTS</b> a képernyőre!</div>
+    <div class="instructions">Ugráshoz nyomd meg a <b>SZÓKÖZT</b> vagy <b>KATTINTS</b> a játékterületre!</div>
 
     <script src="bee.js"></script>
 </body>
