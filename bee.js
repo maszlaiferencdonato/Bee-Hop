@@ -1,8 +1,6 @@
 let oszlopok = [];
 const jatekTer = document.getElementById('jatekTer');
 const mehecskeElem = document.getElementById('mehecske');
-const pontszamElem = document.getElementById('pontszam');
-const vegsoPontszamElem = document.getElementById('vegsoPontszam');
 
 const oszlopSzelesseg = 60;
 const resMeret = 180;
@@ -12,7 +10,6 @@ const canvasMagassag = 750;
 let oszlopIdozito = null;
 let jatekCiklusId = null;
 let jatekFuto = false;
-let pontszam = 0;
 
 const mehecske = {
     x: 80,
@@ -39,9 +36,6 @@ function jatekInditasa() {
         if (o.also) o.also.remove();
     });
     oszlopok = [];
-
-    pontszam = 0;
-    if (pontszamElem) pontszamElem.textContent = pontszam;
 
     mehecske.y = 200;
     mehecske.sebesseg = 0;
@@ -89,8 +83,7 @@ function hozzaadOszlop() {
         also: alsoOszlop,
         x: 600,
         felsoMagassag: felsoMagassag,
-        alsoMagassag: alsoMagassag,
-        atlepve: false
+        alsoMagassag: alsoMagassag
     });
 }
 
@@ -149,12 +142,6 @@ function jatekCiklus() {
             return;
         }
 
-        if (!o.atlepve && o.x + oszlopSzelesseg < mehecske.x) {
-            o.atlepve = true;
-            pontszam++;
-            if (pontszamElem) pontszamElem.textContent = pontszam;
-        }
-
         if (o.x < -oszlopSzelesseg) {
             o.felso.remove();
             o.also.remove();
@@ -172,10 +159,6 @@ function gameOver() {
     if (jatekCiklusId) cancelAnimationFrame(jatekCiklusId);
 
     mehecskeElem.style.display = 'none';
-
-    if (vegsoPontszamElem) {
-        vegsoPontszamElem.textContent = pontszam;
-    }
 
     const startKepernyo = document.getElementById('startKepernyo');
     if (startKepernyo) {
