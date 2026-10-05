@@ -293,3 +293,25 @@ body {
         transform: translateY(-12px);
     }
 }
+
+.pontszam-kijelzo {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 56px;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 3px 3px 0px #e56b20, -3px -3px 0px #e56b20, 3px -3px 0px #e56b20, -3px 3px 0px #e56b20, 5px 5px 0px #000;
+    z-index: 30;
+    pointer-events: none;
+    letter-spacing: 2px;
+}
+
+.pontszam-eredmeny {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 2px 2px 0px #000;
+}
