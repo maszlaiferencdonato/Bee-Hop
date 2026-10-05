@@ -3,6 +3,8 @@ const jatekTer = document.getElementById('jatekTer');
 const mehecskeElem = document.getElementById('mehecske');
 const pontszamElem = document.getElementById('pontszam');
 const vegsoPontszamElem = document.getElementById('vegsoPontszam');
+const startKepernyo = document.getElementById('startKepernyo');
+const gameOverKepernyo = document.getElementById('gameOverKepernyo');
 
 const oszlopSzelesseg = 60;
 const resMeret = 180;
@@ -41,7 +43,10 @@ function jatekInditasa() {
     oszlopok = [];
 
     pontszam = 0;
-    if (pontszamElem) pontszamElem.textContent = pontszam;
+    if (pontszamElem) {
+        pontszamElem.textContent = pontszam;
+        pontszamElem.style.display = 'block';
+    }
 
     mehecske.y = 200;
     mehecske.sebesseg = 0;
@@ -49,8 +54,8 @@ function jatekInditasa() {
     mehecskeElem.style.top = mehecske.y + 'px';
     mehecskeElem.style.display = 'block';
 
-    const startKepernyo = document.getElementById('startKepernyo');
     if (startKepernyo) startKepernyo.style.display = 'none';
+    if (gameOverKepernyo) gameOverKepernyo.style.display = 'none';
 
     jatekFuto = true;
 
@@ -59,6 +64,24 @@ function jatekInditasa() {
 
     oszlopIdozito = setInterval(hozzaadOszlop, 1800);
     jatekCiklus();
+}
+
+function menubeVissza() {
+    jatekFuto = false;
+    clearInterval(oszlopIdozito);
+    if (jatekCiklusId) cancelAnimationFrame(jatekCiklusId);
+
+    oszlopok.forEach(o => {
+        if (o.felso) o.felso.remove();
+        if (o.also) o.also.remove();
+    });
+    oszlopok = [];
+
+    mehecskeElem.style.display = 'none';
+    if (pontszamElem) pontszamElem.style.display = 'none';
+
+    if (gameOverKepernyo) gameOverKepernyo.style.display = 'none';
+    if (startKepernyo) startKepernyo.style.display = 'flex';
 }
 
 function hozzaadOszlop() {
@@ -173,12 +196,15 @@ function gameOver() {
 
     mehecskeElem.style.display = 'none';
 
+    if (pontszamElem) {
+        pontszamElem.style.display = 'none';
+    }
+
     if (vegsoPontszamElem) {
         vegsoPontszamElem.textContent = pontszam;
     }
 
-    const startKepernyo = document.getElementById('startKepernyo');
-    if (startKepernyo) {
-        startKepernyo.style.display = 'flex';
+    if (gameOverKepernyo) {
+        gameOverKepernyo.style.display = 'flex';
     }
 }
