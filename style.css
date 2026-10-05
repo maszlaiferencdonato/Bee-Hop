@@ -17,77 +17,84 @@ body {
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    transition: all 0.4s ease;
+    transition: background 0.4s ease;
 }
 
+    
+    .jatek-ter.tema-nappal {
+        background: linear-gradient(to bottom, #70c5ce 0%, #b4e1e7 70%, #dcf0f2 100%);
+    }
 
-.jatek-ter.tema-nappal { 
-    background: linear-gradient(to bottom, #70c5ce 0%, #b4e1e7 70%, #dcf0f2 100%); 
-}
-.jatek-ter.tema-nappal .nap { 
-    background-color: #f7d154; 
-    box-shadow: 0 0 30px rgba(247, 209, 84, 0.8);
-}
-.jatek-ter.tema-nappal .felho { 
-    background-color: #ffffff; 
-    border: none;
-    box-shadow: none;
-}
-.jatek-ter.tema-nappal .talaj { 
-    background-color: #ded895; 
-    border-top: 12px solid #73bf2e; 
-}
-.jatek-ter.tema-nappal .oszlop {
-    background: linear-gradient(to right, #73bf2e 0%, #5ba123 100%);
-    border: 4px solid #543847;
-}
+        .jatek-ter.tema-nappal .nap {
+            background-color: #f7d154;
+            box-shadow: 0 0 30px rgba(247, 209, 84, 0.8);
+        }
 
+        .jatek-ter.tema-nappal .felho {
+            background-color: #ffffff;
+        }
 
-.jatek-ter.tema-ejszaka { 
-    background: linear-gradient(to bottom, #0d1b2a 0%, #1b263b 60%, #415a77 100%); 
-}
-.jatek-ter.tema-ejszaka .nap { 
-    background-color: #f4f1de; 
-    box-shadow: 0 0 25px rgba(244, 241, 222, 0.8); 
-}
-.jatek-ter.tema-ejszaka .felho { 
-    background-color: #ffffff; 
-    opacity: 0.85;
-    border: none;
-    box-shadow: none;
-}
-.jatek-ter.tema-ejszaka .talaj { 
-    background-color: #1c2541; 
-    border-top: 12px solid #0b132b; 
-}
-.jatek-ter.tema-ejszaka .oszlop {
-    background: linear-gradient(to right, #3a506b 0%, #1c2541 100%);
-    border: 4px solid #0b132b;
-}
+        .jatek-ter.tema-nappal .talaj {
+            background-color: #ded895;
+            border-top: 12px solid #73bf2e;
+        }
 
+        .jatek-ter.tema-nappal .oszlop {
+            background: linear-gradient(to right, #73bf2e 0%, #5ba123 100%);
+            border: 4px solid #543847;
+        }
 
-.jatek-ter.tema-cyberpunk { 
-    background: linear-gradient(to bottom, #050515 0%, #1a0b2e 60%, #3b0764 100%); 
-}
-.jatek-ter.tema-cyberpunk .nap { 
-    background-color: #ff007f; 
-    box-shadow: 0 0 35px #ff007f; 
-}
-.jatek-ter.tema-cyberpunk .felho { 
-    background-color: #00bbf9; 
-    border: 1px solid #00e1ff;
-    box-shadow: 0 0 12px #00e1ff;
-    opacity: 0.85;
-}
-.jatek-ter.tema-cyberpunk .talaj { 
-    background-color: #10002b; 
-    border-top: 12px solid #f72585; 
-}
-.jatek-ter.tema-cyberpunk .oszlop {
-    background: linear-gradient(to right, #00f5d4 0%, #00bbf9 100%);
-    border: 4px solid #f72585;
-}
+   
+    .jatek-ter.tema-ejszaka {
+        background: linear-gradient(to bottom, #0d1b2a 0%, #1b263b 60%, #415a77 100%);
+    }
 
+        .jatek-ter.tema-ejszaka .nap {
+            background-color: #f4f1de;
+            box-shadow: 0 0 25px rgba(244, 241, 222, 0.8);
+        }
+
+        .jatek-ter.tema-ejszaka .felho {
+            background-color: #4a5568;
+            opacity: 0.85;
+        }
+
+        .jatek-ter.tema-ejszaka .talaj {
+            background-color: #1c2541;
+            border-top: 12px solid #0b132b;
+        }
+
+        .jatek-ter.tema-ejszaka .oszlop {
+            background: linear-gradient(to right, #3a506b 0%, #1c2541 100%);
+            border: 4px solid #0b132b;
+        }
+
+  
+    .jatek-ter.tema-cyberpunk {
+        background: linear-gradient(to bottom, #050515 0%, #1a0b2e 60%, #3b0764 100%);
+    }
+
+        .jatek-ter.tema-cyberpunk .nap {
+            background-color: #ff007f;
+            box-shadow: 0 0 35px #ff007f;
+        }
+
+        .jatek-ter.tema-cyberpunk .felho {
+            background-color: #00bbf9;
+            box-shadow: 0 0 12px #00e1ff;
+            opacity: 0.85;
+        }
+
+        .jatek-ter.tema-cyberpunk .talaj {
+            background-color: #10002b;
+            border-top: 12px solid #f72585;
+        }
+
+        .jatek-ter.tema-cyberpunk .oszlop {
+            background: linear-gradient(to right, #ff007f 0%, #7b2cbf 100%);
+            border: 4px solid #f72585;
+            box-shadow: 0 0 10px #ff007f;
+        }
 
 .nap {
     width: 70px;
@@ -105,14 +112,33 @@ body {
     transition: all 0.4s ease;
 }
 
-.felho-1 { width: 130px; height: 45px; top: 40px;  left: 30px; }
-.felho-2 { width: 150px; height: 50px; top: 120px; right: 140px; }
-.felho-3 { width: 110px; height: 38px; top: 210px; left: 50px; }
-.felho-4 { width: 140px; height: 45px; top: 310px; right: 40px; }
-.felho-5 { width: 120px; height: 40px; top: 410px; left: 120px; }
-.felho-6 { width: 160px; height: 52px; top: 490px; right: 100px; }
-.felho-7 { width: 100px; height: 35px; top: 570px; left: 30px; }
-.felho-8 { width: 130px; height: 42px; top: 20px;  right: 180px; }
+.felho-1 {
+    width: 130px;
+    height: 45px;
+    top: 40px;
+    left: 30px;
+}
+
+.felho-2 {
+    width: 150px;
+    height: 50px;
+    top: 120px;
+    right: 140px;
+}
+
+.felho-3 {
+    width: 110px;
+    height: 38px;
+    top: 210px;
+    left: 50px;
+}
+
+.felho-4 {
+    width: 140px;
+    height: 45px;
+    top: 310px;
+    right: 40px;
+}
 
 .talaj {
     width: 100%;
@@ -120,15 +146,14 @@ body {
     position: absolute;
     bottom: 0;
     transition: all 0.4s ease;
-    z-index: 5;
 }
 
 .oszlop {
     width: 60px;
     position: absolute;
     box-sizing: border-box;
-    z-index: 2;
 }
+
 
 .mehecske-img {
     width: 50px;
@@ -136,30 +161,7 @@ body {
     position: absolute;
     z-index: 10;
     object-fit: contain;
-}
-
-
-.ingame-pont {
-    position: absolute;
-    top: 20px;
-    width: 100%;
-    text-align: center;
-    font-size: 50px;
-    font-weight: 900;
-    color: #ffffff;
-    text-shadow: 3px 3px 0px #000;
-    z-index: 15;
-}
-
-.pont-kijelzo {
-    font-size: 26px;
-    font-weight: bold;
-    color: #f7d154;
-    text-shadow: 2px 2px 0px #000;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 6px 18px;
-    border-radius: 8px;
-    border: 2px solid #ffffff;
+    display: none; 
 }
 
 
@@ -169,43 +171,40 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.35);
+    background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     z-index: 20;
-    padding: 40px 0;
+    padding: 30px 0;
     box-sizing: border-box;
 }
+
 
 .logo-kontener {
     display: flex;
     align-items: center;
-    gap: 15px;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 50px; 
 }
 
 .pixel-cim {
-    font-size: 52px;
+    font-size: 72px;
     font-weight: 900;
     color: #ffffff;
-    text-shadow: 
-        3px 3px 0px #e56b20,
-        -3px -3px 0px #e56b20,
-        3px -3px 0px #e56b20,
-        -3px 3px 0px #e56b20,
-        5px 5px 0px #000;
-    letter-spacing: 2px;
+    text-shadow: 4px 4px 0px #e56b20, -4px -4px 0px #e56b20, 4px -4px 0px #e56b20, -4px 4px 0px #e56b20, 6px 6px 0px #000;
+    letter-spacing: 3px;
     margin: 0;
 }
 
 .logo-mehecske {
-    width: 45px;
-    height: 45px;
+    width: 65px; 
+    height: 65px;
     object-fit: contain;
     animation: lebeges 1.2s infinite alternate ease-in-out;
 }
-
 
 .tema-valaszto {
     display: flex;
@@ -267,10 +266,10 @@ body {
     text-transform: uppercase;
 }
 
-.pixel-gomb:active {
-    transform: translateY(3px);
-    box-shadow: inset -2px -2px 0px #a23f05, 0px 2px 0px #000;
-}
+    .pixel-gomb:active {
+        transform: translateY(3px);
+        box-shadow: inset -2px -2px 0px #a23f05, 0px 2px 0px #000;
+    }
 
 .copyright {
     color: #ffffff;
@@ -286,6 +285,33 @@ body {
 }
 
 @keyframes lebeges {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(-10px); }
+    0% {
+        transform: translateY(0px);
+    }
+
+    100% {
+        transform: translateY(-12px);
+    }
+}
+
+.pontszam-kijelzo {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 56px;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 3px 3px 0px #e56b20, -3px -3px 0px #e56b20, 3px -3px 0px #e56b20, -3px 3px 0px #e56b20, 5px 5px 0px #000;
+    z-index: 30;
+    pointer-events: none;
+    letter-spacing: 2px;
+}
+
+.pontszam-eredmeny {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 2px 2px 0px #000;
 }
