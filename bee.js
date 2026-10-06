@@ -6,15 +6,21 @@ const vegsoPontszamElem = document.getElementById('vegsoPontszam');
 const startKepernyo = document.getElementById('startKepernyo');
 const gameOverKepernyo = document.getElementById('gameOverKepernyo');
 
+const ALAP_SZELÉSSEG = 600;
+const ALAP_MAGASSAG = 750;
+
 const oszlopSzelesseg = 60;
 const resMeret = 180;
 const talajMagassag = 80;
-const canvasMagassag = 750;
 
 let oszlopIdozito = null;
 let jatekCiklusId = null;
 let jatekFuto = false;
 let pontszam = 0;
+
+function getSkala() {
+    return jatekTer.clientWidth / ALAP_SZELÉSSEG;
+}
 
 const mehecske = {
     x: 80,
@@ -50,8 +56,8 @@ function jatekInditasa() {
 
     mehecske.y = 200;
     mehecske.sebesseg = 0;
-    mehecskeElem.style.left = mehecske.x + 'px';
-    mehecskeElem.style.top = mehecske.y + 'px';
+
+    frissitMehecskePozicio();
     mehecskeElem.style.display = 'block';
 
     if (startKepernyo) startKepernyo.style.display = 'none';
@@ -88,33 +94,30 @@ function hozzaadOszlop() {
     if (!jatekFuto) return;
 
     const minMagassag = 50;
-    const maxMagassag = canvasMagassag - talajMagassag - resMeret - minMagassag;
+    const maxMagassag = ALAP_MAGASSAG - talajMagassag - resMeret - minMagassag;
     const felsoMagassag = Math.floor(Math.random() * (maxMagassag - minMagassag + 1)) + minMagassag;
-    const alsoMagassag = canvasMagassag - talajMagassag - felsoMagassag - resMeret;
+    const alsoMagassag = ALAP_MAGASSAG - talajMagassag - felsoMagassag - resMeret;
 
     const felsoOszlop = document.createElement('div');
     felsoOszlop.className = 'oszlop';
-    felsoOszlop.style.height = felsoMagassag + 'px';
-    felsoOszlop.style.top = '0px';
-    felsoOszlop.style.left = '600px';
 
     const alsoOszlop = document.createElement('div');
     alsoOszlop.className = 'oszlop';
-    alsoOszlop.style.height = alsoMagassag + 'px';
-    alsoOszlop.style.bottom = talajMagassag + 'px';
-    alsoOszlop.style.left = '600px';
 
     jatekTer.appendChild(felsoOszlop);
     jatekTer.appendChild(alsoOszlop);
 
-    oszlopok.push({
+    const ujOszlop = {
         felso: felsoOszlop,
         also: alsoOszlop,
-        x: 600,
+        x: ALAP_SZELÉSSEG,
         felsoMagassag: felsoMagassag,
         alsoMagassag: alsoMagassag,
         atlepve: false
-    });
+    };
+
+    frissitOszlopPozicio(ujOszlop);
+    oszlopok.push(ujOszlop);
 }
 
 function ugras() {
@@ -130,7 +133,7 @@ window.addEventListener("keydown", function (event) {
     }
 });
 
-window.addEventListener("click", function (event) {
+window.addEventListener("pointerdown", function (event) {
     if (event.target.closest('button')) return;
     ugras();
 });
@@ -140,12 +143,35 @@ function ellenorizUtkozes(o) {
 
     if (hitX) {
         const hitFelso = mehecske.y < o.felsoMagassag;
-        const hitAlso = (mehecske.y + mehecske.magassag) > (canvasMagassag - talajMagassag - o.alsoMagassag);
+        const hitAlso = (mehecske.y + mehecske.magassag) > (ALAP_MAGASSAG - talajMagassag - o.alsoMagassag);
         if (hitFelso || hitAlso) {
             return true;
         }
     }
     return false;
+}
+
+function frissitMehecskePozicio() {
+    const skala = getSkala();
+    mehecskeElem.style.left = (mehecske.x * skala) + 'px';
+    mehecskeElem.style.top = (mehecske.y * skala) + 'px';
+    mehecskeElem.style.width = (mehecske.szelesseg * skala) + 'px';
+    mehecskeElem.style.height = (mehecske.magassag * skala) + 'px';
+}
+
+function frissitOszlopPozicio(o) {
+    const skala = getSkala();
+    const oszlopPxSzelesseg = oszlopSzelesseg * skala;
+
+    o.felso.style.width = oszlopPxSzelesseg + 'px';
+    o.felso.style.height = (o.felsoMagassag * skala) + 'px';
+    o.felso.style.top = '0px';
+    o.felso.style.left = (o.x * skala) + 'px';
+
+    o.also.style.width = oszlopPxSzelesseg + 'px';
+    o.also.style.height = (o.alsoMagassag * skala) + 'px';
+    o.also.style.bottom = (talajMagassag * skala) + 'px';
+    o.also.style.left = (o.x * skala) + 'px';
 }
 
 function jatekCiklus() {
@@ -154,18 +180,18 @@ function jatekCiklus() {
     mehecske.sebesseg += mehecske.gravitacio;
     mehecske.y += mehecske.sebesseg;
 
-    if (mehecske.y <= 0 || mehecske.y + mehecske.magassag >= canvasMagassag - talajMagassag) {
+    if (mehecske.y <= 0 || mehecske.y + mehecske.magassag >= ALAP_MAGASSAG - talajMagassag) {
         gameOver();
         return;
     }
 
-    mehecskeElem.style.top = mehecske.y + 'px';
+    frissitMehecskePozicio();
 
     for (let i = 0; i < oszlopok.length; i++) {
         let o = oszlopok[i];
         o.x -= 3.5;
-        o.felso.style.left = o.x + 'px';
-        o.also.style.left = o.x + 'px';
+        
+        frissitOszlopPozicio(o);
 
         if (ellenorizUtkozes(o)) {
             gameOver();
@@ -208,3 +234,10 @@ function gameOver() {
         gameOverKepernyo.style.display = 'flex';
     }
 }
+
+window.addEventListener('resize', () => {
+    if (jatekFuto) {
+        frissitMehecskePozicio();
+        oszlopok.forEach(o => frissitOszlopPozicio(o));
+    }
+});
