@@ -21,9 +21,9 @@ const mehecske = {
     y: 200,
     szelesseg: 50,
     magassag: 50,
-    gravitacio: 0.45,
-    sebesseg: 0,
-    ugrasEro: -8.5
+    gravitacio: 0.4,
+    sebesseg: 3,
+    ugrasEro: -9
 };
 
 function valtsTemat(ujTema, gombElem) {
@@ -62,7 +62,7 @@ function jatekInditasa() {
     clearInterval(oszlopIdozito);
     if (jatekCiklusId) cancelAnimationFrame(jatekCiklusId);
 
-    oszlopIdozito = setInterval(hozzaadOszlop, 1800);
+    oszlopIdozito = setInterval(hozzaadOszlop, 1400);
     jatekCiklus();
 }
 
