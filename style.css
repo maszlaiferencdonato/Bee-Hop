@@ -10,14 +10,17 @@ body {
 }
 
 .jatek-ter {
-    width: 600px;
-    height: 750px;
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 4 / 5; 
+    max-height: 90vh;    
     position: relative;
     border: 5px solid #fff;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     transition: background 0.4s ease;
+    box-sizing: border-box;
 }
 
     
@@ -349,4 +352,24 @@ body {
     box-shadow: inset -4px -4px 0px #a23f05, 0px 5px 0px #000;
     cursor: pointer;
     text-transform: uppercase;
+}
+@media (max-width: 640px) {
+    .pixel-cim {
+        font-size: 48px;
+    }
+    
+    .logo-mehecske {
+        width: 45px;
+        height: 45px;
+    }
+
+    .pixel-gomb {
+        min-width: 110px;
+        padding: 10px 14px;
+        font-size: 18px;
+    }
+
+    .pontszam-kijelzo {
+        font-size: 42px;
+    }
 }
